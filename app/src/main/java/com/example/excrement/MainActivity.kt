@@ -74,8 +74,9 @@ class MainActivity : AppCompatActivity() {
         val context = applicationContext
         val file : File = File(context.filesDir, SAVE_FILE_NAME)
 
-        if (file.exists())
-            file.writeText(Counter.count().toString())
+        if (!file.exists())
+            file.createNewFile()
+        file.writeText(Counter.count().toString())
     }
 
     private fun read()
@@ -85,6 +86,8 @@ class MainActivity : AppCompatActivity() {
 
         if (file.exists())
             Counter.count(file.readText().toInt())
+
+        refreshNumberDisplay()
     }
 
     fun reset(v: View) {
